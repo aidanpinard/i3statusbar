@@ -25,7 +25,7 @@ namespace i3statusbar.ClickEvents
                 line = input.ReadLine().TrimStart(','); // remove leading , if exists
                 args = JsonConvert.DeserializeObject<ClickEventArgs>(line);
                 _sections
-                    .Where(section => section.Name == args.Name)
+                    .Where(section => section?.Name == args?.Name)
                     .FirstOrDefault()?.ProcessClickEvent(this, args);
             }
         }
