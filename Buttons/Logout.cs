@@ -12,7 +12,14 @@ namespace i3statusbar.Buttons
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-            HelperFunctions.LaunchApplication("/usr/bin/i3-nagbar", "-t warning -m 'Log out ?' -b 'yes' 'i3-msg exit'");
+            if (args.Modifiers.Contains("Control"))
+            {
+                HelperFunctions.RunCommand("/usr/bin/i3-nagbar", "-t warning -m \"Shutdown?\" -b \"yes\" \"shutdown -h now\"");
+            }
+            else
+            {
+                HelperFunctions.RunCommand("/usr/bin/i3-nagbar", "-t warning -m \"Log out?\" -b \"yes\" \"i3-msg exit\"");
+            }
         }
     }
 }
