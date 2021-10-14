@@ -6,7 +6,17 @@ namespace i3statusbar
 {
     public class HelperFunctions
     {
-        public static string RunCommand(string executable, string args)
+        public static void LaunchApplication(string executable, string args = null)
+        {
+            using Process command = new Process();
+            command.StartInfo.FileName = executable;
+            command.StartInfo.Arguments = args;
+            
+            command.StartInfo.UseShellExecute = true;
+            command.Start();
+        }
+
+        public static string RunCommand(string executable, string args = null)
         {
             using Process command = new Process();
 

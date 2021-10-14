@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+
 using Newtonsoft.Json;
 
-namespace i3statusbar
+namespace i3statusbar.ClickEvents
 {
     public class ClickEventArgs
     {

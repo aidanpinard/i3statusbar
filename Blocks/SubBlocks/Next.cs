@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
+using i3statusbar.ClickEvents;
 namespace i3statusbar.Blocks.SubBlocks
 {
     public class Next : SubBlock

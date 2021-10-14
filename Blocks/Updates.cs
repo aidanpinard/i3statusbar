@@ -1,9 +1,9 @@
-using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
+using i3statusbar.ClickEvents;
 
 namespace i3statusbar.Blocks
 {
@@ -19,6 +19,7 @@ namespace i3statusbar.Blocks
             Separator = true;
             SeparatorWidth = 9;
             Active = false;
+            _waitHour.Start(); // temp
         }
         
         private async Task CheckUpdates()
@@ -72,7 +73,7 @@ namespace i3statusbar.Blocks
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-
+            HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e \"yay; echo 'Press any key to continue'; read -sk\"");
         }
     }
 }

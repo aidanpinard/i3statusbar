@@ -1,3 +1,4 @@
+using i3statusbar.ClickEvents;
 using i3statusbar.Types;
 
 using Newtonsoft.Json;

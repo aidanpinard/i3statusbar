@@ -1,21 +1,21 @@
 using System.Collections.Generic;
 
 using i3statusbar.Blocks.SubBlocks;
+using i3statusbar.ClickEvents;
 using i3statusbar.Types;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace i3statusbar.Blocks
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class Block
+    public abstract class Block : BarSection
     {
-        public bool Active { get; protected set; }
+        public override bool Active { get; protected set; }
         private string _full_text = "";
         [JsonProperty("full_text")]
-        public string FullText { 
+        public override string FullText { 
             get
             {
                 return _full_text;
@@ -54,7 +54,7 @@ namespace i3statusbar.Blocks
         public int? MinWidth { get; protected set; }
 
         [JsonProperty("name")]
-        public string Name { get; protected set; }
+        public override string Name { get; protected set; }
 
         [JsonProperty("instance")]
         public string Instance { get; protected set; }
@@ -100,11 +100,10 @@ namespace i3statusbar.Blocks
             [JsonProperty("separator_block_width")]
             public const int SeparatorWidth = 0;
 
-            public int SetColours(int first, int second)
+            public void SetColours(Colour first, Colour second)
             {
-                Background.Code = first;
-                TextColour.Code = second;
-                return second;
+                Background = first;
+                TextColour = second;
             }
 
             public void Serialize(JsonWriter writer, JsonSerializer serializer)
@@ -127,9 +126,7 @@ namespace i3statusbar.Blocks
 
         public abstract void Update();
 
-        public abstract void ProcessClickEvent(object sender, ClickEventArgs args);
-
-        public void Serialize(JsonWriter writer, JsonSerializer serializer)
+        public override void Serialize(JsonWriter writer, JsonSerializer serializer)
         {
             if (SubBlocks.Count > 0)
             {

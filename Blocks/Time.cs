@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+using i3statusbar.ClickEvents;
 
 namespace i3statusbar.Blocks
 {
@@ -22,7 +21,7 @@ namespace i3statusbar.Blocks
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-
+            HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e calcurse");
         }
     }
 }

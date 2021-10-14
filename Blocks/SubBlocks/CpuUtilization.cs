@@ -2,6 +2,8 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 
+using i3statusbar.ClickEvents;
+
 namespace i3statusbar.Blocks.SubBlocks
 {
     public class CpuUtilization : SubBlock
@@ -39,7 +41,7 @@ namespace i3statusbar.Blocks.SubBlocks
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-            
+            HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e \"htop\"");
         }
     }
 }
