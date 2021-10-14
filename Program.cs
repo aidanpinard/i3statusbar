@@ -34,10 +34,10 @@ namespace i3statusbar
                 Environment.ExitCode = 1;
                 return;
             }
-            
+
             Printer printer = new Printer(_sections);
             ClickEventHandler clickEventHandler = new ClickEventHandler(_sections);
-            printer.PrintOutput(Console.Out);
+            Task.Run(() => printer.PrintOutput(Console.Out));
             clickEventHandler.Listen(Console.In);
         }
     }
