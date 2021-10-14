@@ -35,7 +35,7 @@ namespace i3statusbar.Blocks.SubBlocks
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-            
+            HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e watch -n 1 sensors");
         }
     }
 }

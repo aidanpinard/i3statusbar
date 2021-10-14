@@ -91,7 +91,7 @@ namespace i3statusbar.Blocks
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-
+            HelperFunctions.RunCommand("/usr/bin/xfce4-power-manager-settings");
         }
     }
 }

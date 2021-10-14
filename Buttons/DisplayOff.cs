@@ -1,3 +1,5 @@
+using System.Threading.Tasks;
+
 using i3statusbar.ClickEvents;
 
 namespace i3statusbar.Buttons
@@ -12,7 +14,10 @@ namespace i3statusbar.Buttons
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-
+            Task.Run(async () => {
+                await Task.Delay(1000);
+                HelperFunctions.LaunchApplication("/usr/bin/xset", "dpms force off");
+            });
         }
     }
 }
