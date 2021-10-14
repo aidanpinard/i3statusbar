@@ -15,7 +15,7 @@ namespace i3statusbar
         private readonly List<BarSection> _sections;
         public Printer(List<BarSection> sections)
         {
-            sections = _sections;
+            _sections = sections;
         }
 
         public Task PrintOutput(TextWriter output)
