@@ -13,8 +13,8 @@ namespace i3statusbar
 {
     class Program
     {
-        private static readonly List<Block> _blocks = 
-            new List<Block>
+        private static readonly List<BarSection> _sections = 
+            new List<BarSection>
             {
                 new Network(),
                 new VPN(),
@@ -22,12 +22,7 @@ namespace i3statusbar
                 new Battery(),
                 new Volume(),
                 new Time(),
-                new Updates()
-            };
-        private static readonly List<Button> _buttons = 
-            new List<Button>
-            {
-
+                new Updates(),
                 new DisplayOff(),
                 new Logout()
             };
@@ -40,6 +35,15 @@ namespace i3statusbar
                     NullValueHandling = NullValueHandling.Ignore
                 };
 
+            List<Types.Colour> colours = new List<Types.Colour>();
+            _sections.Aggregate((BarSection)null, (first, last) => {
+                if (last is Block block)
+                {
+                    colours.Add(block.Background);
+                }
+                return first;
+            });
+            
             Console.WriteLine(@"{ ""version"": 1, ""click_events"":true }");
 
             writer.WriteStartArray();
@@ -47,35 +51,35 @@ namespace i3statusbar
             while (true)
             {
                 writer.WriteStartArray();
-                int previous_colour = 0x000000;
+                int colourIdx = 0;
                 bool use_inbuilt_separator = false;
                 
+                separator.SetColours(new Types.Colour(0x000000), colours[colourIdx++]);
+                separator.Serialize(writer, serializer);
                 // all blocks **should** be independent of each other
-                Parallel.ForEach(_blocks, (block) => block.Update());
+                _sections
+                    .OfType<Block>()
+                    .AsParallel()
+                    .ForAll((block) => block.Update());
 
-                foreach(Block block in _blocks.Where(block => block.Active))
-                {                    
-                    if (!use_inbuilt_separator)
+                foreach(BarSection section in _sections.Where(block => block.Active))
+                {
+                    section.Serialize(writer, serializer);
+                    
+                    if (section is Block block) 
                     {
-                        previous_colour = 
-                            separator.SetColours(previous_colour, block.Background.Code);
-                        separator.Serialize(writer, serializer);
+                        if (!use_inbuilt_separator)
+                        {
+                            separator.SetColours(block.Background, colours[colourIdx++]);
+                            separator.Serialize(writer, serializer);
+                        }
+
+                        use_inbuilt_separator = block.Separator;
                     }
-
-                    use_inbuilt_separator = block.Separator;
-                    block.Serialize(writer, serializer);
-                }
-
-                // add it to the end just in case the last one isn't using inbuilt
-                if (!use_inbuilt_separator)
-                {
-                    separator.SetColours(previous_colour, 0x000000);
-                    separator.Serialize(writer, serializer);
-                }
-
-                foreach (Button button in _buttons.Where(button => button.Active))
-                {
-                    button.Serialize(writer, serializer);
+                    else
+                    {
+                        use_inbuilt_separator = true;
+                    }
                 }
 
                 writer.WriteEndArray();
@@ -87,6 +91,12 @@ namespace i3statusbar
 
         private static void Main(string[] args)
         {
+            if (_sections.Count == 0)
+            {
+                Environment.ExitCode = 1;
+                return;
+            }
+            ClickEventHandler ceh = new ClickEventHandler(_sections);
             DisplayAndUpdate();
         }
     }

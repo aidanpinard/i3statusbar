@@ -100,11 +100,10 @@ namespace i3statusbar.Blocks
             [JsonProperty("separator_block_width")]
             public const int SeparatorWidth = 0;
 
-            public int SetColours(int first, int second)
+            public void SetColours(Colour first, Colour second)
             {
-                Background.Code = first;
-                TextColour.Code = second;
-                return second;
+                Background = first;
+                TextColour = second;
             }
 
             public void Serialize(JsonWriter writer, JsonSerializer serializer)
@@ -127,9 +126,7 @@ namespace i3statusbar.Blocks
 
         public abstract void Update();
 
-        public abstract void ProcessClickEvent(object sender, ClickEventArgs args);
-
-        public void Serialize(JsonWriter writer, JsonSerializer serializer)
+        public override void Serialize(JsonWriter writer, JsonSerializer serializer)
         {
             if (SubBlocks.Count > 0)
             {
