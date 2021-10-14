@@ -21,7 +21,7 @@ namespace i3statusbar.Blocks
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-
+            HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e calcurse");
         }
     }
 }
