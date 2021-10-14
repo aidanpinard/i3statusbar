@@ -30,6 +30,13 @@ namespace i3statusbar.Types
             }
         }
 
+        public static Colour Black {
+            get
+            {
+                return new Colour(0);
+            }
+        }
+
         private int _code = 0;
 
         public int Red {
