@@ -113,7 +113,14 @@ namespace i3statusbar.Blocks
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
-            HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e bandwhich");
+            if (args.Button == 3)
+            {
+                usebps = !usebps;
+            }
+            else
+            {
+                HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e bandwhich");
+            }
         }
     }
 }
