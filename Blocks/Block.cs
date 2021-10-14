@@ -10,12 +10,12 @@ using Newtonsoft.Json.Serialization;
 namespace i3statusbar.Blocks
 {
     [JsonObject(MemberSerialization.OptIn)]
-    public abstract class Block
+    public abstract class Block : BarSection
     {
-        public bool Active { get; protected set; }
+        public override bool Active { get; protected set; }
         private string _full_text = "";
         [JsonProperty("full_text")]
-        public string FullText { 
+        public override string FullText { 
             get
             {
                 return _full_text;
@@ -54,7 +54,7 @@ namespace i3statusbar.Blocks
         public int? MinWidth { get; protected set; }
 
         [JsonProperty("name")]
-        public string Name { get; protected set; }
+        public override string Name { get; protected set; }
 
         [JsonProperty("instance")]
         public string Instance { get; protected set; }
