@@ -1,10 +1,10 @@
 using System.Collections.Generic;
 
 using i3statusbar.Blocks.SubBlocks;
+using i3statusbar.ClickEvents;
 using i3statusbar.Types;
 
 using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;
 
 namespace i3statusbar.Blocks

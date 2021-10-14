@@ -1,9 +1,9 @@
-using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
 
+using i3statusbar.ClickEvents;
 
 namespace i3statusbar.Blocks
 {

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 
 using i3statusbar.Blocks;
 using i3statusbar.Buttons;
+using i3statusbar.ClickEvents;
 
 using Newtonsoft.Json;
 

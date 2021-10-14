@@ -1,3 +1,5 @@
+using i3statusbar.ClickEvents;
+
 namespace i3statusbar.Buttons
 {
     public class Logout : Button

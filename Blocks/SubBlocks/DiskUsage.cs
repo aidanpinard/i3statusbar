@@ -1,6 +1,8 @@
 using System.Linq;
 using System.IO;
 
+using i3statusbar.ClickEvents;
+
 namespace i3statusbar.Blocks.SubBlocks
 {
     public class DiskUsage : SubBlock

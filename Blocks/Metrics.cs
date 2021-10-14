@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 
 using i3statusbar.Blocks.SubBlocks;
-
+using i3statusbar.ClickEvents;
 namespace i3statusbar.Blocks
 {
     public class Metrics : Block

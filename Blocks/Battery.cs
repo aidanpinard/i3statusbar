@@ -1,5 +1,7 @@
 using System.Linq;
 
+using i3statusbar.ClickEvents;
+
 namespace i3statusbar.Blocks
 {
     public class Battery : Block

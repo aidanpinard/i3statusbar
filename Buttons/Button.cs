@@ -1,3 +1,5 @@
+using i3statusbar.ClickEvents;
+
 using Newtonsoft.Json;
 
 namespace i3statusbar.Buttons
