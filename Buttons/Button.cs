@@ -23,14 +23,14 @@ namespace i3statusbar.Buttons
         
         public override bool Active { get; protected set; }
 
+        public const bool Separator = false;
+
         public Button()
         {
             Active = true;
         }
 
-        public abstract void ProcessClickEvent(object sender, ClickEventArgs args);
-
-        public void Serialize(JsonWriter writer, JsonSerializer serializer)
+        public override void Serialize(JsonWriter writer, JsonSerializer serializer)
         {
             serializer.Serialize(writer, this);
         }
