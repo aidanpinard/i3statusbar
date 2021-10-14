@@ -9,7 +9,7 @@ namespace i3statusbar.Blocks
 {
     public class Updates : Block
     {
-        private Stopwatch _waitHour = new Stopwatch();
+        private Stopwatch _delayUpdateTimer = new Stopwatch();
 
         public int updateCount = 0;
 
@@ -19,7 +19,7 @@ namespace i3statusbar.Blocks
             Separator = true;
             SeparatorWidth = 9;
             Active = false;
-            _waitHour.Start(); // temp
+            _delayUpdateTimer.Start(); // temp
         }
         
         private async Task CheckUpdates()
@@ -60,10 +60,10 @@ namespace i3statusbar.Blocks
 
         public override void Update() 
         {
-            if (_waitHour.Elapsed.TotalHours > 0 || !_waitHour.IsRunning)
+            if (_delayUpdateTimer.Elapsed.TotalHours > 0 || !_delayUpdateTimer.IsRunning)
             {
                 Task.Run(CheckUpdates);
-                _waitHour.Restart();
+                _delayUpdateTimer.Restart();
             }
         
             Active = updateCount > 0;
@@ -74,6 +74,7 @@ namespace i3statusbar.Blocks
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
             HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e \"yay; echo 'Press any key to continue'; read -sk\"");
+            _delayUpdateTimer.Stop();
         }
     }
 }
