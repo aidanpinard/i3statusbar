@@ -80,11 +80,11 @@ namespace i3statusbar.Blocks
             _transferTime.Restart();
             
             char icon;
-            if (_interfaces.Where(iface => iface.OperationalStatus == OperationalStatus.Up).FirstOrDefault().Name == "enp2s0") 
+            if (_interfaces.Where(iface => iface.OperationalStatus == OperationalStatus.Up).FirstOrDefault()?.Name == "enp2s0") 
             {
                 icon = '\uf796';
             }
-            else if (_interfaces.Where(iface => iface.OperationalStatus == OperationalStatus.Up).FirstOrDefault().Name == "wlan0")
+            else if (_interfaces.Where(iface => iface.OperationalStatus == OperationalStatus.Up).FirstOrDefault()?.Name == "wlan0")
             {
                 icon = '\uf1eb';
             }
