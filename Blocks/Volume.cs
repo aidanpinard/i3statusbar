@@ -11,23 +11,24 @@ namespace i3statusbar.Blocks
 
         public override void Update() 
         {
-            int volume = int.Parse(HelperFunctions.RunCommand("/usr/bin/pamixer", "--get-volume"));
+            string volume = HelperFunctions.RunCommand("/usr/bin/pamixer", "--get-volume-human");
+            volume = volume.Substring(0, volume.Length-1);
             char icon = '\uf026';
-            if (HelperFunctions.RunCommand("/usr/bin/pamixer", "--get-mute") == "true")
+            if (volume == "muted")
             {
                 icon = '\uf6a9';
-                volume = 0;
+                volume = "0%";
             }
-            else if (volume > 50)
+            else if (int.TryParse(volume, out int vol) && vol > 50)
             {
                 icon = '\uf028';
             }
-            else if (volume > 0)
+            else if (vol > 0)
             {
                 icon = '\uf027';
             }
 
-            FullText = $"{icon} {volume}%";
+            FullText = $"{icon} {volume}";
             ShortText = FullText;
         }
 

@@ -54,10 +54,9 @@ namespace i3statusbar
 
                 for(int i = 0; i < activeSections.Count; i++)
                 {
-                    BarSection section = activeSections[i];
-                    section.Serialize(writer, serializer);
+                    activeSections[i].Serialize(writer, serializer);
                     
-                    if (section is Block block) 
+                    if (activeSections[i] is Block block) 
                     {
                         if (!block.Separator)
                         {
