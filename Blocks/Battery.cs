@@ -61,7 +61,7 @@ namespace i3statusbar.Blocks
                 .Split("=")
                 .Skip(1)
                 .FirstOrDefault();
-
+            Background.Code = 0x000000;
             //f1e6 = charging
             if (status == "Charging") 
             {
@@ -85,6 +85,7 @@ namespace i3statusbar.Blocks
             }
             else
             {
+                Background.Code = 0xFF0505;
                 FullText = $"\uf244 {percentage}%";
             }
         }
