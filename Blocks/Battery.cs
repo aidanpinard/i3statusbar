@@ -61,7 +61,8 @@ namespace i3statusbar.Blocks
                 .Split("=")
                 .Skip(1)
                 .FirstOrDefault();
-            Background.Code = 0x000000;
+                
+            Background.Code = 0xD69E2E;
             //f1e6 = charging
             if (status == "Charging") 
             {

@@ -26,24 +26,17 @@ namespace i3statusbar
                     Formatting = Formatting.None,
                     NullValueHandling = NullValueHandling.Ignore
                 };
-
-            
             
             Block.BlockSeparator separator = new Block.BlockSeparator();
 
             List<BarSection> activeSections;
-            bool use_inbuilt_separator;
             Types.Colour nextColour;
 
-            
             Console.WriteLine(@"{ ""version"": 1, ""click_events"":true }");
             writer.WriteStartArray();
             while (true)
             {
-
                 writer.WriteStartArray();
-                
-                use_inbuilt_separator = false;
 
                 // all blocks **should** be independent of each other
                 _sections
@@ -66,7 +59,7 @@ namespace i3statusbar
                     
                     if (section is Block block) 
                     {
-                        if (!use_inbuilt_separator)
+                        if (!block.Separator)
                         {
                             if (activeSections[(i + 1) % (activeSections.Count - 1)] is Block nextBlock)
                             {
@@ -79,12 +72,6 @@ namespace i3statusbar
                             separator.SetColours(block.Background, nextColour);
                             separator.Serialize(writer, serializer);
                         }
-
-                        use_inbuilt_separator = block.Separator;
-                    }
-                    else
-                    {
-                        use_inbuilt_separator = true;
                     }
                 }
 
