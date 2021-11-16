@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Diagnostics;
 using System.Threading;
@@ -9,7 +10,10 @@ namespace i3statusbar.Blocks
 {
     public class Updates : Block
     {
-        private Stopwatch _delayUpdateTimer = new Stopwatch();
+        private Process _updateProcess = new Process();
+        private readonly string[] _updateCommands = {
+                "/usr/bin/checkupdates", "/usr/bin/checkupdates-aur"
+            };
 
         public int updateCount = 0;
 
@@ -19,36 +23,40 @@ namespace i3statusbar.Blocks
             Separator = true;
             SeparatorWidth = 9;
             Active = false;
-            _delayUpdateTimer.Start(); // temp
+            
+            _updateProcess.StartInfo.UseShellExecute = false;
+            _updateProcess.StartInfo.RedirectStandardOutput = true;
+            _updateProcess.StartInfo.RedirectStandardError = true;
+
+            Task.Run(async () =>
+            {
+                while (true)
+                {
+                    await Task.Delay(TimeSpan.FromDays(1));
+                    await CheckUpdates();
+                }
+            });
         }
         
         private async Task CheckUpdates()
         {
             int updates = 0;
-            using Process command = new Process();
 
-            string[] update_commands = {
-                "/usr/bin/checkupdates", "/usr/bin/checkupdates-aur"
-            };
-
-            foreach (string path in update_commands)
+            foreach (string path in _updateCommands)
             {
-                command.StartInfo.FileName = path;
-                command.StartInfo.UseShellExecute = false;
-                command.StartInfo.RedirectStandardOutput = true;
-                command.StartInfo.RedirectStandardError = true;
 
+                _updateProcess.StartInfo.FileName = path;
                 for (int i = 0; i < 3; i++)
                 {
-                    if (!command.Start()) 
+                    if (!_updateProcess.Start()) 
                     {
                         return;
                     }
-                    string output = await command.StandardOutput.ReadToEndAsync();
-                    command.StandardError.ReadToEnd();
-                    await command.WaitForExitAsync();
+                    string output = await _updateProcess.StandardOutput.ReadToEndAsync();
+                    _updateProcess.StandardError.ReadToEnd();
+                    await _updateProcess.WaitForExitAsync();
 
-                    if (command.ExitCode == 0)
+                    if (_updateProcess.ExitCode == 0)
                     {
                         updates += output.Count(c => c == '\n');
                         break;
@@ -59,22 +67,15 @@ namespace i3statusbar.Blocks
         }
 
         public override void Update() 
-        {
-            if (_delayUpdateTimer.Elapsed.TotalHours > 0 || !_delayUpdateTimer.IsRunning)
-            {
-                Task.Run(CheckUpdates);
-                _delayUpdateTimer.Restart();
-            }
-        
+        {        
             Active = updateCount > 0;
-
             FullText = $"\uf381 {updateCount}";
         }
 
         public override void ProcessClickEvent(object sender, ClickEventArgs args)
         {
             HelperFunctions.LaunchApplication("/usr/bin/xterm", "-e \"yay; echo 'Press any key to continue'; read -sk\"");
-            _delayUpdateTimer.Stop();
+            Task.Run(CheckUpdates);
         }
     }
 }
