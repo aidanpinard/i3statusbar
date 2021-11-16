@@ -13,6 +13,7 @@ namespace i3statusbar
         private static readonly List<BarSection> _sections = 
             new List<BarSection>
             {
+                new Audio(),
                 new Network(),
                 new VPN(),
                 new Metrics(),
